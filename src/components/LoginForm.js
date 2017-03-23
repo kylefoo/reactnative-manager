@@ -10,7 +10,6 @@ class LoginForm extends Component {
   }
 
   onPasswordChange(text) {
-  	console.log(this.props)
     this.props.passwordChanged(text);  	
   }
 
