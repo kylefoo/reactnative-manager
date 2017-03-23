@@ -6,8 +6,28 @@ import * as actions from '../actions';
 
 class LoginForm extends Component {
   onEmailChange(text) {
-  	console.log(this.props)
     this.props.emailChanged(text);
+  }
+
+  onPasswordChange(text) {
+  	console.log(this.props)
+    this.props.passwordChanged(text);  	
+  }
+
+  onButtonPress() {
+    const {email, password } = this.props;
+    this.props.loginUser({ email, password });
+  }
+
+  renderButton() {
+	if (this.props.loading){
+      return <Spinner size={"large"} />
+    }
+  	return (
+      <Button onPress={this.onButtonPress.bind(this)}>
+        Log In
+      </Button>
+  	)
   }
 
   render() {
@@ -18,6 +38,7 @@ class LoginForm extends Component {
             label="Email"
             placeholder="email@gmail.com"
             onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email}
   	      />
   	    </CardSection>
   	    
@@ -26,17 +47,39 @@ class LoginForm extends Component {
             secureTextEntry
             label="Password"
             placeholder="password"
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password}
   	      />
   	    </CardSection>
   	    
+  	    <Text style={styles.errorTextStyle}>
+  	      {this.props.error}
+  	    </Text>
+
   	    <CardSection>
-  	      <Button>
-  	        Log In
-  	      </Button>
+  	      {this.renderButton()}
   	    </CardSection>
   	  </Card>
   	);
   }
 }
 
-export default connect(null, actions)(LoginForm);
+const styles = {
+  errorTextStyle: {
+  	fontSize: 20,
+  	alignSelf: 'center',
+  	color: 'red'
+  }
+}
+
+const mapStateToProps = ({ auth }) => {
+  const { email, password, error } = auth;
+
+  return {
+    email: email,
+    password: password,
+    error: error
+  };
+};
+
+export default connect(mapStateToProps, actions)(LoginForm);
