@@ -21,13 +21,13 @@ class LoginForm extends Component {
 
   renderButton() {
 	if (this.props.loading){
-      return <Spinner size={"large"} />
+      return <Spinner size={"large"} />;
     }
   	return (
       <Button onPress={this.onButtonPress.bind(this)}>
         Log In
       </Button>
-  	)
+  	);
   }
 
   render() {
@@ -73,12 +73,13 @@ const styles = {
 }
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password, error } = auth;
+  const { email, password, error, loading } = auth;
 
   return {
     email: email,
     password: password,
-    error: error
+    error: error,
+    loading: loading
   };
 };
 
