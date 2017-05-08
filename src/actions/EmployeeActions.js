@@ -27,21 +27,19 @@ export const employeeSave = ({name, phone, shift, uid}) => {
   };
 };
 
-export const employeeDelete = ({name, phone, shift}) => {
+export const employeeDelete = ({ uid }) => {
   const { currentUser } = firebase.auth();
   
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/employees`)
-      .push({ name, phone, shift })
+    firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+      .remove()
       .then(() => {
-        dispatch({ type: EMPLOYEE_CREATE });
-        Actions.main({ type: 'reset' });
+        Actions.employeeList({ type: 'reset' });
       });
   };
 };
 
 export const employeeCreate = ({name, phone, shift}) => {
-  console.log(name, phone, shift);
   const { currentUser } = firebase.auth();
   
   return (dispatch) => {
